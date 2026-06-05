@@ -12,8 +12,8 @@ $$\rho_{total}(\vec{x}) = \sum_{i=1}^N \rho_i(\vec{x})$$
 
 ## Cross-Correlation (CC)
 
-The standard metric for comparing two EM maps $\rho_A$ and $\rho_B$ is the Pearson correlation coefficient:
+The standard metric for comparing two EM maps $\rho_A$ and $\rho_B$ is the Pearson correlation coefficient (Rossmann, 2000):
 
 $$CC = \frac{\sum (\rho_A - \bar{\rho}_A)(\rho_B - \bar{\rho}_B)}{\sqrt{\sum (\rho_A - \bar{\rho}_A)^2 \sum (\rho_B - \bar{\rho}_B)^2}}$$
 
-In **diff-em**, this function is fully differentiable with respect to the atomic coordinates $\vec{r}_i$, allowing for gradient-based structural refinement.
+In **diff-em**, this function is fully differentiable with respect to the atomic coordinates $\vec{r}_i$, allowing for gradient-based structural refinement. This approach is consistent with modern differentiable volumes used in cryoDRGN (Zhong et al., 2021).

@@ -11,8 +11,8 @@
 ## 🎯 Features
 
 - **Gaussian Mixture Volumes:** Represent atomic models as differentiable 3D density maps using sum-of-Gaussians (electrostatic potential approximation).
-- **Cross-Correlation Kernels:** Differentiable computation of map-to-model correlation coefficients (CC) for structural refinement.
-- **Multi-Resolution Fitting:** Support for tunable Gaussian widths (B-factors) to handle low-to-medium resolution maps.
+- **Cross-Correlation Kernels:** Differentiable computation of map-to-model correlation coefficients (CC) for structural refinement (Rossmann, 2000).
+- **Optimization Strategy:** Compatible with multi-resolution fitting and neural density fields (Zhong et al., 2021).
 - **Hardware Acceleration:** Optimized for GPU/TPU execution via XLA, enabling the fitting of large complexes in seconds.
 
 ---
