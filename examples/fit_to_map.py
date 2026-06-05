@@ -1,7 +1,7 @@
 import jax
 import jax.numpy as jnp
 
-from diff_em.kernels import cross_correlation, simulate_density
+from diff_em import cross_correlation, simulate_density
 
 
 def main():
