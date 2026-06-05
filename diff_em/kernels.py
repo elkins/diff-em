@@ -1,3 +1,4 @@
+import jax
 import jax.numpy as jnp
 
 
@@ -10,6 +11,11 @@ def simulate_density(
     Differentiable simulation of 3D density from atomic coordinates.
     Represent each atom as a 3D Gaussian.
 
+    Memory-efficient implementation using jax.lax.scan: atoms are processed
+    one at a time and their contributions accumulated into a single (D, H, W)
+    buffer, giving O(D·H·W) peak memory instead of the O(N·D·H·W) required
+    by a naive broadcast.  The scan is fully JIT-able and auto-differentiable.
+
     Args:
         coords: (N, 3) atomic coordinates.
         grid_coords: (D, H, W, 3) coordinates of the 3D grid points.
@@ -18,18 +24,18 @@ def simulate_density(
     Returns:
         3D density map (D, H, W).
     """
-    # Reshape for broadcasting:
-    # grid: (1, D, H, W, 3)
-    # coords: (N, 1, 1, 1, 3)
-    diff = grid_coords[None, ...] - coords[:, None, None, None, :]
-    dist_sq = jnp.sum(diff**2, axis=-1)
 
-    # Gaussian kernel: exp(-r^2 / (2*sigma^2))
-    # We ignore the normalization constant as CC is scale-invariant
-    gaussians = jnp.exp(-dist_sq / (2 * sigma**2))
+    def add_atom(density: jnp.ndarray, atom_coord: jnp.ndarray) -> tuple[jnp.ndarray, None]:
+        # grid_coords: (D, H, W, 3); atom_coord: (3,)
+        # Broadcasting (D, H, W, 3) - (3,) → (D, H, W, 3)
+        diff = grid_coords - atom_coord
+        dist_sq = jnp.sum(diff**2, axis=-1)  # (D, H, W)
+        # Gaussian kernel — normalization omitted; CC is scale-invariant
+        return density + jnp.exp(-dist_sq / (2 * sigma**2)), None
 
-    # Sum contributions from all atoms
-    return jnp.sum(gaussians, axis=0)
+    density_init = jnp.zeros(grid_coords.shape[:-1])  # (D, H, W)
+    density, _ = jax.lax.scan(add_atom, density_init, coords)
+    return density
 
 
 def cross_correlation(

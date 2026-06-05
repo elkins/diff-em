@@ -1,10 +1,10 @@
 import jax
 import jax.numpy as jnp
 
-from diff_em.kernels import cross_correlation, simulate_density
+from diff_em import cross_correlation, simulate_density
 
 
-def main():
+def main() -> None:
     # 1. Define a simple grid
     x = jnp.linspace(0, 10, 20)
     grid = jnp.stack(jnp.meshgrid(x, x, x, indexing="ij"), axis=-1)
@@ -23,7 +23,7 @@ def main():
     print("Starting structural refinement...")
     for i in range(10):
 
-        def loss_fn(p):
+        def loss_fn(p: jnp.ndarray) -> jnp.ndarray:
             sim_map = simulate_density(p, grid)
             return -cross_correlation(sim_map, target_map)
 
