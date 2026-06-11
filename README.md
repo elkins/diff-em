@@ -21,7 +21,7 @@
 
 Experience **diff-em** directly in your browser:
 
-- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/elkins/diff-em/blob/main/examples/cryo_em_fitting_tutorial.ipynb) **Cryo-EM Density Fitting** — Learn how to optimize atomic coordinates directly against 3D density maps using cross-correlation.
+- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/elkins/diff-em/blob/main/examples/interactive_tutorials/cryo_em_fitting_tutorial.ipynb) **Cryo-EM Density Fitting** — Learn how to optimize atomic coordinates directly against 3D density maps using cross-correlation.
 
 ---
 
